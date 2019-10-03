@@ -6,14 +6,25 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+// custome middlewares
+const serverResponse = require("./middlewares/serverResponse");
+
+// routes
+const adminRoutes = require("./routes/admin");
+const userRoutes = require("./routes/user");
+
 const app = express();
+const PORT = process.env.PORT || 4000;
 
 // middlewares
 app.use(morgan("dev"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(serverResponse());
 
-const PORT = process.env.PORT || 4000;
+// routes
+app.use("/", userRoutes);
+app.use("/admin", adminRoutes);
 
 mongoose
     .connect(config.get("db").get("connection-string"), {
