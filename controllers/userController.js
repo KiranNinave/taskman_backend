@@ -3,7 +3,19 @@ const Role = require("../models/role");
 const userFunctions = require("./functions/userFunctions");
 const jwtHelper = require("../helpers/jwtHelper");
 
+exports.loginAdmin = async (req, res) => {
+    if (req.user.role.type !== "admin")
+        return res.sendUnAuthorized({ message: "Unauthorized" });
+    const token = jwtHelper.generateToken(req.user);
+    res.json({
+        token,
+        user: req.user
+    });
+};
+
 exports.loginUser = async (req, res) => {
+    if (req.user.role.type !== "user")
+        return res.sendUnAuthorized({ message: "Unauthorized" });
     const token = jwtHelper.generateToken(req.user);
     res.json({
         token,

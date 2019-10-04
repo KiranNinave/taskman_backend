@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(serverResponse());
 
 // routes
-app.use("/", userRoutes);
+app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 
 mongoose

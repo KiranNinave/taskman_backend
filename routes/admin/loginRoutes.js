@@ -11,7 +11,7 @@ router.route("/").post(
     passport.authenticate(passportconfig.passport.methods.local, {
         session: false
     }),
-    userController.loginUser
+    userController.loginAdmin
 );
 
 module.exports = router;
