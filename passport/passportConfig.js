@@ -21,7 +21,9 @@ passport.use(
         async (payload, done) => {
             // payload contain user id
             try {
-                const user = await User.findById(payload.sub).populate("role");
+                const user = await User.findById(payload.sub)
+                    .populate("role")
+                    .populate("team");
                 if (!user) {
                     // 401 user not found
                     return done(null, false);
@@ -46,7 +48,9 @@ passport.use(
             try {
                 const user = await User.findOne({
                     email
-                }).populate("role");
+                })
+                    .populate("role")
+                    .populate("team");
                 if (!user || !(await user.isValidPassword(password))) {
                     // user not found or invalid password
                     return done(null, false);

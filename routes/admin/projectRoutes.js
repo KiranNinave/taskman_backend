@@ -1,11 +1,9 @@
-const express = require("express");
+const router = require("express").Router();
 const passport = require("passport");
 const passportConfig = require("../../passport/passportConfig");
+const userChacker = require("../../middlewares/userChecker");
+const projectController = require("../../controllers/projectController");
 const validator = require("../../validators");
-const userController = require("../../controllers/userController");
-const userChecker = require("../../middlewares/userChecker");
-
-const router = express.Router();
 
 router
     .route("/")
@@ -13,16 +11,16 @@ router
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
-        userChecker.checkUser(userChecker.users.types.admin),
-        userController.getUser
+        userChacker.checkUser(userChacker.users.types.admin),
+        projectController.getProject
     )
     .post(
-        validator.validateBody(validator.schemas.userValidator),
+        validator.validateBody(validator.schemas.projectValidator),
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
-        userChecker.checkUser(userChecker.users.types.admin),
-        userController.addUser
+        userChacker.checkUser(userChacker.users.types.admin),
+        projectController.addProject
     );
 
 router
@@ -31,22 +29,23 @@ router
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
-        userChecker.checkUser(userChecker.users.types.admin),
-        userController.getUserById
+        userChacker.checkUser(userChacker.users.types.admin),
+        projectController.getProjectById
     )
     .put(
+        validator.validateBody(validator.schemas.projectValidator),
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
-        userChecker.checkUser(userChecker.users.types.admin),
-        userController.updateUserById
+        userChacker.checkUser(userChacker.users.types.admin),
+        projectController.updateProjectById
     )
     .delete(
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
-        userChecker.checkUser(userChecker.users.types.admin),
-        userController.deleteUserById
+        userChacker.checkUser(userChacker.users.types.admin),
+        projectController.deleteProjectById
     );
 
 module.exports = router;

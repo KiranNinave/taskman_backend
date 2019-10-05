@@ -8,5 +8,6 @@ module.exports = Joi.object().keys({
         .required(),
     password: Joi.string()
         .min(8)
-        .required()
+        .required(),
+    team: Joi.string().required()
 });

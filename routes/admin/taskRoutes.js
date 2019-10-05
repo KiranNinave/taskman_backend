@@ -1,11 +1,9 @@
-const express = require("express");
+const router = require("express").Router();
 const passport = require("passport");
 const passportConfig = require("../../passport/passportConfig");
-const validator = require("../../validators");
-const userController = require("../../controllers/userController");
 const userChecker = require("../../middlewares/userChecker");
-
-const router = express.Router();
+const validator = require("../../validators/");
+const taskController = require("../../controllers/taskController");
 
 router
     .route("/")
@@ -14,15 +12,15 @@ router
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.getUser
+        taskController.getTask
     )
     .post(
-        validator.validateBody(validator.schemas.userValidator),
+        validator.validateBody(validator.schemas.taskValidator),
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.addUser
+        taskController.addTask
     );
 
 router
@@ -32,21 +30,22 @@ router
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.getUserById
+        taskController.getTaskById
     )
     .put(
+        validator.validateBody(validator.schemas.taskValidator),
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.updateUserById
+        taskController.updateTaskById
     )
     .delete(
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.deleteUserById
+        taskController.deleteTaskById
     );
 
 module.exports = router;

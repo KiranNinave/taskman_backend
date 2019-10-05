@@ -14,7 +14,7 @@ exports.users = {
 
 exports.createUser = async (type = "user", body = {}) => {
     try {
-        const { firstName, lastName, email, password } = body;
+        const { firstName, lastName, email, password, team } = body;
 
         const isUserExists = await User.findOne({ email });
         if (isUserExists) {
@@ -27,11 +27,13 @@ exports.createUser = async (type = "user", body = {}) => {
             lastName,
             email,
             password,
+            team,
             role: userRole._id
         });
         await newUser.save();
         const newUserWithRole = await User.populate(newUser, [
-            { path: "role" }
+            { path: "role" },
+            { path: "team" }
         ]);
         return newUserWithRole;
     } catch (err) {

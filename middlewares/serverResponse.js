@@ -21,6 +21,14 @@ module.exports = () => {
             return this.status(409).json(responseObject);
         };
 
+        res.sendNotFound = function() {
+            return this.status(404).json({ message: "Item not found!" });
+        };
+
+        res.sendNotFoundWithMessage = function(responseObject) {
+            return this.status(404).json(responseObject);
+        };
+
         res.sendUnAuthorized = function(responseObject = {}) {
             return this.status(401).json(responseObject);
         };

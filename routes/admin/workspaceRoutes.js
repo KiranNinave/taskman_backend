@@ -1,11 +1,9 @@
-const express = require("express");
+const router = require("express").Router();
 const passport = require("passport");
 const passportConfig = require("../../passport/passportConfig");
-const validator = require("../../validators");
-const userController = require("../../controllers/userController");
+const workspaceController = require("../../controllers/workspaceController");
 const userChecker = require("../../middlewares/userChecker");
-
-const router = express.Router();
+const validator = require("../../validators");
 
 router
     .route("/")
@@ -14,15 +12,15 @@ router
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.getUser
+        workspaceController.getWorkspace
     )
     .post(
-        validator.validateBody(validator.schemas.userValidator),
+        validator.validateBody(validator.schemas.workspaceValidator),
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.addUser
+        workspaceController.addWorkspace
     );
 
 router
@@ -32,21 +30,22 @@ router
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.getUserById
+        workspaceController.getWorkspaceById
     )
     .put(
+        validator.validateBody(validator.schemas.workspaceValidator),
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.updateUserById
+        workspaceController.updateWorkspaceById
     )
     .delete(
         passport.authenticate(passportConfig.passport.methods.jwt, {
             session: false
         }),
         userChecker.checkUser(userChecker.users.types.admin),
-        userController.deleteUserById
+        workspaceController.deleteWorkspaceById
     );
 
 module.exports = router;
