@@ -23,8 +23,7 @@ exports.addTask = async (req, res) => {
             project,
             startDate,
             endDate,
-            method,
-            worker
+            user
         } = req.body;
 
         // check for valid project
@@ -34,14 +33,11 @@ exports.addTask = async (req, res) => {
                 message: "Project not found"
             });
 
-        // check for user and team
-        let isUserOrTeam = null;
-        if (method === "user")
-            isUserOrTeam = await User.findOne({ _id: worker });
-        if (method === "team") isUserOrTeam = null;
-        if (!isUserOrTeam)
+        // check for user exists
+        const isUser = await User.findOne({ _id: user });
+        if (!isUser)
             return res.sendNotFoundWithMessage({
-                message: "User or Team not found"
+                message: "User not found"
             });
 
         const newTask = new Task({
@@ -51,8 +47,7 @@ exports.addTask = async (req, res) => {
             status: "white",
             startDate,
             endDate,
-            method,
-            [method]: worker
+            user
         });
 
         await newTask.save();

@@ -21,6 +21,11 @@ const taskSchema = new mongoose.Schema(
             default: "white",
             required: true
         },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user",
+            required: true
+        },
         startDate: {
             type: Number,
             required: true
@@ -28,19 +33,6 @@ const taskSchema = new mongoose.Schema(
         endDate: {
             type: Number,
             required: true
-        },
-        method: {
-            type: String,
-            enum: ["team", "user"],
-            required: true
-        },
-        team: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "team"
-        },
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
         }
     },
     {

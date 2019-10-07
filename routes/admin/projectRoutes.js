@@ -48,4 +48,12 @@ router
         projectController.deleteProjectById
     );
 
+router.route("/:id/user").get(
+    passport.authenticate(passportConfig.passport.methods.jwt, {
+        session: false
+    }),
+    userChacker.checkUser(userChacker.users.types.admin),
+    projectController.getProjectUser
+);
+
 module.exports = router;

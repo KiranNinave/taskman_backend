@@ -14,6 +14,19 @@ const projectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "workspace",
             required: true
+        },
+        method: {
+            type: String,
+            enum: ["team", "user"],
+            required: true
+        },
+        team: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "team"
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user"
         }
     },
     {
