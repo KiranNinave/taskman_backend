@@ -1,5 +1,5 @@
 {
     "db": {
-        "connection-string": "mongodb://localhost:27017/taskman"
+        "connection-string": "mongodb://taskman_mongo:27017/taskman"
     }
 }
